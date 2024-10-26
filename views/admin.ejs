@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purry Boutique</title>
+    <style>
+      :root {
+        --theme-color: #e6e;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      header {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background-color: var(--theme-color);
+        color: white;
+        justify-content: space-between;
+        padding: 5px 5px;
+      }
+
+      .headerDiv {
+        display: flex;
+        align-items: center;
+      }
+
+      .headerDiv .logo a {
+        align-items: center;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+
+      header .sidebar {
+        display: inline-flex;
+      }
+
+      .sidebar li {
+        list-style: none;
+      }
+
+      .sidebar li a {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        margin-left: 15px;
+        text-decoration: none;
+        transition: all 0.13s ease;
+      }
+
+      .sidebar li a:hover {
+        color: cyan;
+      }
+
+      .sidebar ul {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .icon {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .icon.cancel-btn {
+        position: absolute;
+        right: 30px;
+        top: 20px;
+      }
+
+      #toggleSidebar {
+        margin-right: 20px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        margin-top: 50px;
+      }
+
+      @media (max-width: 768px) {
+        body.disabledScroll {
+          overflow: hidden;
+        }
+
+        .icon {
+          display: block;
+        }
+
+        .icon.hide {
+          display: block;
+        }
+
+        header .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100vh;
+          height: 100vh;
+          width: 150px;
+          background-color: var(--theme-color);
+          display: block;
+          padding: 20px 0;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+
+        header .sidebar ul {
+          display: flex;
+          flex-direction: column;
+        }
+
+        header .sidebar.active {
+          left: 0%;
+        }
+
+        header .sidebar li {
+          margin-top: 45px;
+        }
+
+        header .sidebar li a {
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+
+      .logout-button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-right: 30px;
+        border-radius: 5px;
+      }
+
+      .logout-button:hover {
+        transform: translateY(-5%);
+        box-shadow: 2px 0 2px #000;
+      }
+
+      .dashboard-cards {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .dashboard-card {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        flex: 1 1 calc(50% - 40px);
+        box-sizing: border-box;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+
+      .dashboard-card h2 {
+        margin: 0 0 10px;
+        font-size: 24px;
+        color: var(--theme-color);
+      }
+
+      .dashboard-card p {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+
+      .dashboard-card button {
+        background-color: var(--theme-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .dashboard-card button:hover {
+        background-color: #e7e;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-card {
+          flex: 1 1 100%;
+          margin: 10px 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="headerDiv">
+        <div class="logo">
+          <a href="#">Purry Boutique</a>
+        </div>
+      </div>
+
+      <nav id="sidebar" class="sidebar">
+        <ul>
+          <div>
+            <button class="icon cancel-btn">X</button>
+          </div>
+
+          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/users">Users</a></li>
+          <li><a href="/products">Products</a></li>
+        </ul>
+      </nav>
+
+      <a href="/logout"><button class="logout-button">Logout</button></a>
+
+      <button id="toggleSidebar" class="icon menu-btn">☰</button>
+    </header>
+
+    <div class="container">
+      <main>
+        <h1>Admin Dashboard</h1>
+        <div class="dashboard-cards">
+          <div class="dashboard-card">
+            <h2>Total Users</h2>
+            <p id="total-users">Loading...</p>
+            <button onclick="location.href='/users'">View Users</button>
+          </div>
+          <div class="dashboard-card">
+            <h2>Total Products</h2>
+            <p id="total-products">Loading...</p>
+            <button onclick="location.href='/products'">View Products</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const body = document.querySelector("body");
+      const header = document.querySelector(".header");
+      const sidebar = document.querySelector(".sidebar");
+      const menuBtn = document.querySelector(".menu-btn");
+      const cancelBtn = document.querySelector(".cancel-btn");
+
+      menuBtn.onclick = () => {
+        sidebar.classList.add("active");
+        menuBtn.classList.add("hide");
+        body.classList.add("disabledScroll");
+      };
+
+      cancelBtn.onclick = () => {
+        sidebar.classList.remove("active");
+        menuBtn.classList.remove("hide");
+        body.classList.remove("disabledScroll");
+      };
+
+      window.onscroll = () => {
+        this.scrollY > 20
+          ? header.classList.add("sticky")
+          : header.classList.remove("sticky");
+      };
+
+      async function fetchData() {
+        try {
+          const usersResponse = await fetch("http://localhost:3000/getUsers");
+          const usersData = await usersResponse.json();
+          const totalUsers = usersData.users.length;
+
+          const productsResponse = await fetch(
+            "http://localhost:3000/listProducts",
+          );
+          const productsData = await productsResponse.json();
+          const totalProducts = productsData.products.length;
+
+          document.getElementById("total-users").textContent = totalUsers;
+          document.getElementById("total-products").textContent = totalProducts;
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      fetchData();
+    </script>
+  </body>
+</html>

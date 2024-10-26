@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purry Boutique</title>
+    <style>
+      :root {
+        --theme-color: #e6e;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      header {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background-color: var(--theme-color);
+        color: white;
+        justify-content: space-between;
+        padding: 5px 5px;
+      }
+
+      .headerDiv {
+        display: flex;
+        align-items: center;
+      }
+
+      .headerDiv .logo a {
+        align-items: center;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+
+      header .sidebar {
+        display: inline-flex;
+      }
+
+      .sidebar li {
+        list-style: none;
+      }
+
+      .sidebar li a {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        margin-left: 15px;
+        text-decoration: none;
+        transition: all 0.13s ease;
+      }
+
+      .sidebar li a:hover {
+        color: cyan;
+      }
+
+      .sidebar ul {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .icon {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .icon.cancel-btn {
+        position: absolute;
+        right: 30px;
+        top: 20px;
+      }
+
+      #toggleSidebar {
+        margin-right: 20px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        margin-top: 60px;
+      }
+
+      .items {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .item {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+        transition: transform 0.2s;
+        padding: 10px;
+      }
+
+      .item:hover {
+        transform: translateY(-5px);
+      }
+
+      .item img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .item-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 15px;
+        flex-grow: 1;
+      }
+
+      .item-details h3 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+      }
+
+      .item-details p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .item-price {
+        color: var(--theme-color);
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 768px) {
+        body.disabledScroll {
+          overflow: hidden;
+        }
+
+        .icon {
+          display: block;
+        }
+
+        .icon.hide {
+          display: block;
+        }
+
+        header .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100vh;
+          height: 100vh;
+          width: 150px;
+          background-color: var(--theme-color);
+          display: block;
+          padding: 20px 0;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+
+        header .sidebar ul {
+          display: flex;
+          flex-direction: column;
+        }
+
+        header .sidebar.active {
+          left: 0%;
+        }
+
+        header .sidebar li {
+          margin-top: 45px;
+        }
+
+        header .sidebar li a {
+          font-size: 20px;
+          font-weight: 600;
+        }
+
+        .items {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .item {
+          display: flex;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          overflow: hidden;
+          background: #fff;
+          transition: transform 0.2s;
+          padding: 10px;
+        }
+
+        .item:hover {
+          transform: translateY(-5px);
+        }
+
+        .item img {
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        .item-details {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 15px;
+          flex-grow: 1;
+        }
+
+        .item-details h3 {
+          margin: 0 0 10px 0;
+          font-size: 18px;
+        }
+
+        .item-details p {
+          margin: 5px 0;
+          font-size: 14px;
+        }
+
+        .item-price {
+          color: var(--theme-color);
+          font-weight: bold;
+          margin-top: 10px;
+        }
+      }
+      .remove-btn {
+        background-color: #ff6347;
+        color: white;
+        border: none;
+        padding: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        align-self: flex-start;
+      }
+
+      .remove-btn:hover {
+        background-color: #e5533c;
+      }
+
+      .cart-summary {
+        margin-top: 20px;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .order-btn {
+        background-color: var(--theme-color);
+        color: white;
+        border: none;
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .order-btn:hover {
+        background-color: #e7e;
+      }
+
+      .logout-button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-right: 30px;
+        border-radius: 5px;
+      }
+
+      .logout-button:hover {
+        transform: translateY(-5%);
+        box-shadow: 2px 0 2px #000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="headerDiv">
+        <div class="logo">
+          <a href="#">Purry Boutique</a>
+        </div>
+      </div>
+
+      <nav id="sidebar" class="sidebar">
+        <ul>
+          <div>
+            <button class="icon cancel-btn">X</button>
+          </div>
+
+          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/myCart">My Cart</a></li>
+          <li><a href="/admin">Admin</a></li>
+        </ul>
+      </nav>
+
+      <a href="/logout"><button class="logout-button">Logout</button></a>
+
+      <button id="toggleSidebar" class="icon menu-btn">☰</button>
+    </header>
+
+    <div class="container">
+      <main>
+        <div class="items"></div>
+        <div class="cart-summary">
+          <div class="cart-details">
+            <p id="total-items">Total Items: 0</p>
+            <p id="total-price">Total Price: kshs. 0</p>
+          </div>
+          <button class="order-btn" onclick="placeOrder()">Order</button>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const body = document.querySelector("body");
+      const header = document.querySelector(".header");
+      const sidebar = document.querySelector(".sidebar");
+      const menuBtn = document.querySelector(".menu-btn");
+      const cancelBtn = document.querySelector(".cancel-btn");
+
+      menuBtn.onclick = () => {
+        sidebar.classList.add("active");
+        menuBtn.classList.add("hide");
+        body.classList.add("disabledScroll");
+      };
+
+      cancelBtn.onclick = () => {
+        sidebar.classList.remove("active");
+        menuBtn.classList.remove("hide");
+        body.classList.remove("disabledScroll");
+      };
+
+      window.onscroll = () => {
+        this.scrollY > 20
+          ? header.classList.add("sticky")
+          : header.classList.remove("sticky");
+      };
+
+      async function fetchCartItems() {
+        try {
+          const response = await fetch("http://localhost:3000/getCartItems");
+          const data = await response.json();
+
+          if (data.Status === "Success") {
+            displayCartItems(data.data);
+          } else {
+            console.error("Failed to retrieve cart items");
+          }
+        } catch (error) {
+          console.error("Error fetching cart items:", error);
+        }
+      }
+
+      async function removeFromCart(productId) {
+        try {
+          const response = await fetch("http://localhost:3000/removeFromCart", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ productId }),
+          });
+
+          const data = await response.json();
+
+          if (data.Status === "Success") {
+            fetchCartItems(); // Refresh the cart items after removal
+          } else {
+            console.error("Failed to remove item from cart");
+          }
+        } catch (error) {
+          console.error("Error removing item from cart:", error);
+        }
+      }
+
+      async function placeOrder() {
+        try {
+          const response = await fetch("http://localhost:3000/makeOrder", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+          });
+
+          const data = await response.json();
+
+          if (data.Status === "Success") {
+            const totalPriceElement = document.getElementById("total-price");
+            const totalPrice = totalPriceElement.textContent.split("kshs. ")[1];
+            window.location.href = `/checkout?totalPrice=${totalPrice}`;
+          } else {
+            console.error("Failed to place order");
+          }
+        } catch (error) {
+          console.error("Error placing order:", error);
+        }
+      }
+
+      function displayCartItems(items) {
+        const itemsContainer = document.querySelector(".items");
+        const totalItemsElement = document.getElementById("total-items");
+        const totalPriceElement = document.getElementById("total-price");
+        itemsContainer.innerHTML = ""; // Clear any existing content
+
+        let totalItems = 0;
+        let totalPrice = 0;
+
+        items.forEach((item) => {
+          totalItems++;
+          totalPrice += item.price;
+
+          const itemElement = document.createElement("div");
+          itemElement.classList.add("item");
+
+          const itemImage = document.createElement("img");
+          itemImage.src = `${item.image}`;
+          itemImage.alt = item.title;
+
+          const itemDetails = document.createElement("div");
+          itemDetails.classList.add("item-details");
+
+          const itemTitle = document.createElement("h3");
+          itemTitle.textContent = item.title;
+
+          const itemDescription = document.createElement("p");
+          itemDescription.textContent = item.description;
+
+          const itemPrice = document.createElement("p");
+          itemPrice.classList.add("item-price");
+          itemPrice.textContent = `kshs. ${item.price}`;
+
+          const removeBtn = document.createElement("button");
+          removeBtn.classList.add("remove-btn");
+          removeBtn.textContent = "Remove";
+          removeBtn.onclick = () => removeFromCart(item.productId);
+
+          itemDetails.appendChild(itemTitle);
+          itemDetails.appendChild(itemDescription);
+          itemDetails.appendChild(itemPrice);
+          itemDetails.appendChild(removeBtn);
+
+          itemElement.appendChild(itemImage);
+          itemElement.appendChild(itemDetails);
+
+          itemsContainer.appendChild(itemElement);
+        });
+
+        totalItemsElement.textContent = `Total Items: ${totalItems}`;
+        totalPriceElement.textContent = `Total Price: kshs. ${totalPrice}`;
+      }
+
+      // Fetch cart items when the page loads
+      fetchCartItems();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purry Boutique</title>
+    <style>
+      :root {
+        --theme-color: #e6e;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      header {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background-color: var(--theme-color);
+        color: white;
+        justify-content: space-between;
+        padding: 5px 5px;
+      }
+
+      .headerDiv {
+        display: flex;
+        align-items: center;
+      }
+
+      .headerDiv .logo a {
+        align-items: center;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+
+      header .sidebar {
+        display: inline-flex;
+      }
+
+      .sidebar li {
+        list-style: none;
+      }
+
+      .sidebar li a {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        margin-left: 15px;
+        text-decoration: none;
+        transition: all 0.13s ease;
+      }
+
+      .sidebar li a:hover {
+        color: cyan;
+      }
+
+      .sidebar ul {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .icon {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .icon.cancel-btn {
+        position: absolute;
+        right: 30px;
+        top: 20px;
+      }
+
+      #toggleSidebar {
+        margin-right: 20px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        margin-top: 50px;
+      }
+
+      .sidebar.collapsed {
+        transform: translateX(-100%);
+      }
+
+      @media (max-width: 768px) {
+        body.disabledScroll {
+          overflow: hidden;
+        }
+
+        .icon {
+          display: block;
+        }
+
+        .icon.hide {
+          display: block;
+        }
+
+        header .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100vh;
+          height: 100vh;
+          width: 150px;
+          background-color: var(--theme-color);
+          display: block;
+          padding: 20px 0;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+
+        header .sidebar ul {
+          display: flex;
+          flex-direction: column;
+        }
+
+        header .sidebar.active {
+          left: 0%;
+        }
+
+        header .sidebar li {
+          margin-top: 45px;
+        }
+
+        header .sidebar li a {
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      th {
+        background-color: var(--theme-color);
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #ddd;
+      }
+
+      .edit-button {
+        background-color: var(--theme-color);
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .edit-button:hover {
+        background-color: #e5e;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #e7e;
+        border-radius: 5px;
+      }
+
+      .form-group button {
+        background-color: var(--theme-color);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .form-group button:hover {
+        background-color: #e5e;
+      }
+
+      .logout-button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-right: 30px;
+        border-radius: 5px;
+      }
+
+      .logout-button:hover {
+        transform: translateY(-5%);
+        box-shadow: 2px 0 2px #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="headerDiv">
+        <div class="logo">
+          <a href="#">Purry Boutique</a>
+        </div>
+      </div>
+
+      <nav id="sidebar" class="sidebar">
+        <ul>
+          <div>
+            <button class="icon cancel-btn">X</button>
+          </div>
+
+          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/users">Users</a></li>
+          <li><a href="/products">Products</a></li>
+        </ul>
+      </nav>
+
+      <a href="/logout"><button class="logout-button">Logout</button></a>
+
+      <button id="toggleSidebar" class="icon menu-btn">☰</button>
+    </header>
+
+    <div class="container">
+      <main>
+        <h2>Edit User</h2>
+        <form id="editUserForm">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" />
+          </div>
+          <div class="form-group">
+            <button type="submit">Update User</button>
+          </div>
+        </form>
+      </main>
+    </div>
+    <script>
+      const body = document.querySelector("body");
+      const header = document.querySelector(".header");
+      const sidebar = document.querySelector(".sidebar");
+      const menuBtn = document.querySelector(".menu-btn");
+      const cancelBtn = document.querySelector(".cancel-btn");
+
+      menuBtn.onclick = () => {
+        sidebar.classList.add("active");
+        menuBtn.classList.add("hide");
+        body.classList.add("disabledScroll");
+      };
+
+      cancelBtn.onclick = () => {
+        sidebar.classList.remove("active");
+        menuBtn.classList.remove("hide");
+        body.classList.remove("disabledScroll");
+      };
+
+      window.onscroll = () => {
+        this.scrollY > 20
+          ? header.classList.add("sticky")
+          : header.classList.remove("sticky");
+      };
+
+      document
+        .getElementById("editUserForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const url = window.location.href;
+
+          const userId = url.split("/").pop();
+
+          const username = document.getElementById("username").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          if (!userId) {
+            alert("User ID is missing!");
+            return;
+          }
+
+          const response = await fetch("http://localhost:3000/editUser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId, username, email, password }),
+          });
+
+          const data = await response.json();
+
+          if (data.Status === "Success") {
+            alert("User updated successfully!");
+            window.location.href = `/users`;
+          } else {
+            alert(`Error: ${data.message}`);
+          }
+        });
+    </script>
+  </body>
+</html>

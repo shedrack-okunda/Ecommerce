@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purry Boutique</title>
+    <style>
+      :root {
+        --theme-color: #e6e;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+
+      header {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background-color: var(--theme-color);
+        color: white;
+        justify-content: space-between;
+        padding: 5px 5px;
+      }
+
+      .headerDiv {
+        display: flex;
+        align-items: center;
+      }
+
+      .headerDiv .logo a {
+        align-items: center;
+        color: #fff;
+        font-size: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+
+      header .sidebar {
+        display: inline-flex;
+      }
+
+      .sidebar li {
+        list-style: none;
+      }
+
+      .sidebar li a {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        margin-left: 15px;
+        text-decoration: none;
+        transition: all 0.13s ease;
+      }
+
+      .sidebar li a:hover {
+        color: cyan;
+      }
+
+      .sidebar ul {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .icon {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .icon.cancel-btn {
+        position: absolute;
+        right: 30px;
+        top: 20px;
+      }
+
+      #toggleSidebar {
+        margin-right: 20px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        margin-top: 50px;
+      }
+
+      @media (max-width: 768px) {
+        body.disabledScroll {
+          overflow: hidden;
+        }
+
+        .icon {
+          display: block;
+        }
+
+        .icon.hide {
+          display: block;
+        }
+
+        header .sidebar {
+          position: fixed;
+          top: 0;
+          left: -100vh;
+          height: 100vh;
+          width: 150px;
+          background-color: var(--theme-color);
+          display: block;
+          padding: 20px 0;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+
+        header .sidebar ul {
+          display: flex;
+          flex-direction: column;
+        }
+
+        header .sidebar.active {
+          left: 0%;
+        }
+
+        header .sidebar li {
+          margin-top: 45px;
+        }
+
+        header .sidebar li a {
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      th {
+        background-color: var(--theme-color);
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #ddd;
+      }
+
+      .edit-button {
+        background-color: var(--theme-color);
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .edit-button:hover {
+        background-color: #e5e;
+      }
+
+      .mainHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .prods {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .product {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+        transition: transform 0.2s;
+      }
+
+      .product:hover {
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+
+      .product img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .product-details {
+        padding: 15px;
+      }
+
+      .product-details h3 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+      }
+
+      .product-details p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .product-price {
+        color: var(--theme-color);
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-content input,
+      .modal-content textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .modal-content button {
+        background-color: var(--theme-color);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .modal-content button:hover {
+        background-color: #005c00;
+      }
+
+      .logout-button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-right: 30px;
+        border-radius: 5px;
+      }
+
+      .logout-button:hover {
+        transform: translateY(-5%);
+        box-shadow: 2px 0 2px #000;
+      }
+
+      .create-product-button {
+        background-color: var(--theme-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .create-product-button:hover {
+        background-color: #e7e;
+      }
+
+      .delete-button {
+        background-color: red;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+        margin-left: 10px;
+        border-radius: 4px;
+      }
+
+      .delete-button:hover {
+        background-color: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="headerDiv">
+        <div class="logo">
+          <a href="#">Purry Boutique</a>
+        </div>
+      </div>
+
+      <nav id="sidebar" class="sidebar">
+        <ul>
+          <div>
+            <button class="icon cancel-btn">X</button>
+          </div>
+
+          <li><a href="/dashboard">Home</a></li>
+          <li><a href="/users">Users</a></li>
+          <li><a href="/products">Products</a></li>
+        </ul>
+      </nav>
+
+      <a href="/logout"><button class="logout-button">Logout</button></a>
+
+      <button id="toggleSidebar" class="icon menu-btn">☰</button>
+    </header>
+
+    <div class="container">
+      <main>
+        <div class="mainHeader">
+          <h2>Products</h2>
+          <a href="/createProd"
+            ><button class="create-product-button">Create Product</button></a
+          >
+        </div>
+        <div class="prods">
+          <!-- Products will be displayed here -->
+        </div>
+      </main>
+    </div>
+
+    <!-- The Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit Product</h2>
+        <input type="hidden" id="productId" />
+        <input type="text" id="productTitle" placeholder="Title" />
+        <textarea id="productDescription" placeholder="Description"></textarea>
+        <input type="number" id="productPrice" placeholder="Price" />
+        <button id="saveProduct">Save</button>
+        <button id="deleteProduct" class="delete-button">Delete</button>
+      </div>
+    </div>
+
+    <script>
+      const body = document.querySelector("body");
+      const header = document.querySelector(".header");
+      const sidebar = document.querySelector(".sidebar");
+      const menuBtn = document.querySelector(".menu-btn");
+      const cancelBtn = document.querySelector(".cancel-btn");
+
+      menuBtn.onclick = () => {
+        sidebar.classList.add("active");
+        menuBtn.classList.add("hide");
+        body.classList.add("disabledScroll");
+      };
+
+      cancelBtn.onclick = () => {
+        sidebar.classList.remove("active");
+        menuBtn.classList.remove("hide");
+        body.classList.remove("disabledScroll");
+      };
+
+      window.onscroll = () => {
+        this.scrollY > 20
+          ? header.classList.add("sticky")
+          : header.classList.remove("sticky");
+      };
+
+      async function fetchProducts() {
+        try {
+          const response = await fetch("http://localhost:3000/listProducts");
+          const data = await response.json();
+
+          if (data.Status === "Success") {
+            displayProducts(data.products);
+          } else {
+            console.error("Failed to retrieve products");
+          }
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      }
+
+      function displayProducts(products) {
+        const productsContainer = document.querySelector(".prods");
+        productsContainer.innerHTML = ""; // Clear any existing content
+
+        products.forEach((product) => {
+          const productElement = document.createElement("div");
+          productElement.classList.add("product");
+
+          const productImage = document.createElement("img");
+          productImage.src = `${product.image}`;
+          productImage.alt = product.title;
+
+          const productDetails = document.createElement("div");
+          productDetails.classList.add("product-details");
+
+          const productTitle = document.createElement("h3");
+          productTitle.textContent = product.title;
+
+          const productDescription = document.createElement("p");
+          productDescription.textContent = product.description;
+
+          const productPrice = document.createElement("p");
+          productPrice.classList.add("product-price");
+          productPrice.textContent = `kshs. ${product.price}`;
+
+          productDetails.appendChild(productTitle);
+          productDetails.appendChild(productDescription);
+          productDetails.appendChild(productPrice);
+
+          productElement.appendChild(productImage);
+          productElement.appendChild(productDetails);
+
+          productElement.addEventListener("click", () => openModal(product));
+
+          productsContainer.appendChild(productElement);
+        });
+      }
+
+      function openModal(product) {
+        document.getElementById("editModal").style.display = "block";
+        document.getElementById("productId").value = product._id; // Use _id if MongoDB
+        document.getElementById("productTitle").value = product.title;
+        document.getElementById("productDescription").value =
+          product.description;
+        document.getElementById("productPrice").value = product.price;
+      }
+
+      function closeModal() {
+        document.getElementById("editModal").style.display = "none";
+      }
+
+      function saveProduct() {
+        const updatedProduct = {
+          productId: document.getElementById("productId").value,
+          title: document.getElementById("productTitle").value,
+          description: document.getElementById("productDescription").value,
+          price: parseFloat(document.getElementById("productPrice").value),
+        };
+
+        // Send the updated product details to the server
+        fetch(`http://localhost:3000/editProduct`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProduct),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.Status === "Success") {
+              // Update the product list on success
+              fetchProducts();
+              closeModal();
+            } else {
+              console.error("Failed to update product");
+            }
+          })
+          .catch((error) => {
+            console.error("Error updating product:", error);
+          });
+      }
+
+      function deleteProduct() {
+        const productId = document.getElementById("productId").value;
+
+        fetch(`http://localhost:3000/deleteProduct`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.Status === "Success") {
+              fetchProducts();
+              closeModal();
+            } else {
+              console.error("Failed to delete product");
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting product:", error);
+          });
+      }
+
+      document.querySelector(".close").addEventListener("click", closeModal);
+      document
+        .getElementById("saveProduct")
+        .addEventListener("click", saveProduct);
+
+      document
+        .getElementById("deleteProduct")
+        .addEventListener("click", deleteProduct);
+      // Fetch products when the page loads
+      fetchProducts();
+    </script>
+  </body>
+</html>
