@@ -4,98 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Purry Boutique</title>
+    <link rel="stylesheet" href="/styles.css" />
     <style>
-      :root {
-        --theme-color: #e6e;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-      }
-
-      header {
-        position: fixed;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        background-color: var(--theme-color);
-        color: white;
-        justify-content: space-between;
-        padding: 5px 5px;
-      }
-
-      .headerDiv {
-        display: flex;
-        align-items: center;
-      }
-
-      .headerDiv .logo a {
-        align-items: center;
-        color: #fff;
-        font-size: 30px;
-        font-weight: 600;
-        text-decoration: none;
-        margin-left: 20px;
-      }
-
-      header .sidebar {
-        display: inline-flex;
-      }
-
-      .sidebar li {
-        list-style: none;
-      }
-
-      .sidebar li a {
-        color: #fff;
-        font-size: 18px;
-        font-weight: 600;
-        margin-left: 15px;
-        text-decoration: none;
-        transition: all 0.13s ease;
-      }
-
-      .sidebar li a:hover {
-        color: cyan;
-      }
-
-      .sidebar ul {
-        display: flex;
-        flex-direction: row;
-      }
-
-      .icon {
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-        display: none;
-      }
-
-      .icon.cancel-btn {
-        position: absolute;
-        right: 30px;
-        top: 20px;
-      }
-
-      #toggleSidebar {
-        margin-right: 20px;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-      }
-
-      main {
-        flex: 1;
-        padding: 20px;
-        overflow-y: auto;
-        margin-top: 60px;
-      }
-
       .items {
         display: flex;
         flex-direction: column;
@@ -148,49 +58,6 @@
       }
 
       @media (max-width: 768px) {
-        body.disabledScroll {
-          overflow: hidden;
-        }
-
-        .icon {
-          display: block;
-        }
-
-        .icon.hide {
-          display: block;
-        }
-
-        header .sidebar {
-          position: fixed;
-          top: 0;
-          left: -100vh;
-          height: 100vh;
-          width: 150px;
-          background-color: var(--theme-color);
-          display: block;
-          padding: 20px 0;
-          text-align: center;
-          transition: all 0.3s ease;
-        }
-
-        header .sidebar ul {
-          display: flex;
-          flex-direction: column;
-        }
-
-        header .sidebar.active {
-          left: 0%;
-        }
-
-        header .sidebar li {
-          margin-top: 45px;
-        }
-
-        header .sidebar li a {
-          font-size: 20px;
-          font-weight: 600;
-        }
-
         .items {
           display: flex;
           flex-direction: column;
@@ -276,26 +143,7 @@
       }
 
       .order-btn:hover {
-        background-color: #e7e;
-      }
-
-      .logout-button {
-        background-color: black;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-        margin-right: 30px;
-        border-radius: 5px;
-      }
-
-      .logout-button:hover {
-        transform: translateY(-5%);
-        box-shadow: 2px 0 2px #000;
+        background-color: var(--hover-color);
       }
     </style>
   </head>

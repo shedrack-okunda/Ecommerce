@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
+    <link rel="stylesheet" href="/styles.css" />
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        /* background-color: #f4f4f4; */
         margin: 0;
         padding: 0;
         display: flex;
@@ -44,7 +44,7 @@
 
       h1 {
         margin-bottom: 2rem;
-        color: #e6e;
+        color: var(--hover-color);
         font-size: 2rem;
         text-align: center;
       }
@@ -65,13 +65,13 @@
 
       input:focus,
       select:focus {
-        border-color: #e6e;
+        border-color: var(--theme-color);
         outline: none;
       }
 
       button {
         padding: 1rem;
-        background-color: #e6e;
+        background-color: var(--theme-color);
         border: none;
         border-radius: 8px;
         color: #fff;
@@ -81,21 +81,21 @@
       }
 
       button:hover {
-        background-color: #e7e;
+        background-color: var(--hover-color);
       }
 
       a {
         display: block;
         text-align: center;
         margin-top: 2rem;
-        color: #e6e;
+        color: var(--theme-color);
         text-decoration: none;
         font-size: 1rem;
         transition: color 0.3s;
       }
 
       a:hover {
-        color: #e5e;
+        color: var(--hover-color);
       }
     </style>
   </head>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <link rel="stylesheet" href="/styles.css" />
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -44,7 +45,7 @@
 
       h1 {
         margin-bottom: 2rem;
-        color: #e6e;
+        color: var(--theme-color);
         font-size: 2rem;
         text-align: center;
       }
@@ -63,13 +64,13 @@
       }
 
       input:focus {
-        border-color: #e6e;
+        border-color: var(--theme-color);
         outline: none;
       }
 
       button {
         padding: 1rem;
-        background-color: #e6e;
+        background-color: var(--theme-color);
         border: none;
         border-radius: 8px;
         color: #fff;
@@ -79,7 +80,7 @@
       }
 
       button:hover {
-        background-color: #e6e;
+        background-color: var(--hover-color);
       }
 
       p {
@@ -92,14 +93,14 @@
         display: block;
         text-align: center;
         margin-top: 2rem;
-        color: #e6e;
+        color: var(--theme-color);
         text-decoration: none;
         font-size: 1rem;
         transition: color 0.3s;
       }
 
       .register-link:hover {
-        color: #e5e;
+        color: var(--hover-color);
       }
     </style>
   </head>
