@@ -21,7 +21,6 @@
       }
 
       .product:hover {
-        transform: translateY(-5px);
         cursor: pointer;
       }
 
@@ -155,8 +154,14 @@
           const productTitle = document.createElement("h3");
           productTitle.textContent = product.title;
 
+          const productCategory = document.createElement("p");
+          productCategory.textContent = product.category;
+
           const productDescription = document.createElement("p");
           productDescription.textContent = product.description;
+
+          const productStock = document.createElement("p");
+          productStock.textContent = product.stock;
 
           const productPrice = document.createElement("p");
           productPrice.classList.add("product-price");
@@ -171,7 +176,9 @@
           });
 
           productDetails.appendChild(productTitle);
+          productDetails.appendChild(productCategory);
           productDetails.appendChild(productDescription);
+          productDetails.appendChild(productStock);
           productDetails.appendChild(productPrice);
           productDetails.appendChild(addToCartButton);
 

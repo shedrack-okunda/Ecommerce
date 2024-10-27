@@ -64,7 +64,6 @@
       }
 
       .product:hover {
-        transform: translateY(-5px);
         cursor: pointer;
       }
 
@@ -233,6 +232,7 @@
         <h2>Edit Product</h2>
         <input type="hidden" id="productId" />
         <input type="text" id="productTitle" placeholder="Title" />
+        <input type="text" id="productCategory" placeholder="Category" />
         <textarea id="productDescription" placeholder="Description"></textarea>
         <input type="number" id="productPrice" placeholder="Price" />
         <input type="number" id="productStock" placeholder="Stock" />
@@ -299,15 +299,23 @@
           const productTitle = document.createElement("h3");
           productTitle.textContent = product.title;
 
+          const productCategory = document.createElement("p");
+          productCategory.textContent = product.category;
+
           const productDescription = document.createElement("p");
           productDescription.textContent = product.description;
+
+          const productStock = document.createElement("p");
+          productStock.textContent = product.stock;
 
           const productPrice = document.createElement("p");
           productPrice.classList.add("product-price");
           productPrice.textContent = `kshs. ${product.price}`;
 
           productDetails.appendChild(productTitle);
+          productDetails.appendChild(productCategory);
           productDetails.appendChild(productDescription);
+          productDetails.appendChild(productStock);
           productDetails.appendChild(productPrice);
 
           productElement.appendChild(productImage);
@@ -323,8 +331,10 @@
         document.getElementById("editModal").style.display = "block";
         document.getElementById("productId").value = product._id; // Use _id if MongoDB
         document.getElementById("productTitle").value = product.title;
+        document.getElementById("productCategory").value = product.category;
         document.getElementById("productDescription").value =
           product.description;
+        document.getElementById("productStock").value = product.stock;
         document.getElementById("productPrice").value = product.price;
       }
 
@@ -336,7 +346,9 @@
         const updatedProduct = {
           productId: document.getElementById("productId").value,
           title: document.getElementById("productTitle").value,
+          category: document.getElementById("productCategory").value,
           description: document.getElementById("productDescription").value,
+          stock: document.getElementById("productStock").value,
           price: parseFloat(document.getElementById("productPrice").value),
         };
 
