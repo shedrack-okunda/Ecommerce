@@ -3,22 +3,24 @@ import ProductModel from "../models/Product.js";
 export const createProduct = async (req, res) => {
   console.log("req.body");
   console.log(req.body);
-  let { title, description, price, image } = req.body;
-  //   let image = req.body.image;
+  let { title, category, description, price, stock, image } = req.body;
 
-  if (!title || !description || !price || !image) {
+  if (!title || !description || !price || !image || !stock || !category) {
     return res.status(400).json({
       Status: "Failed",
-      message: "Title, description, image and price are required!",
+      message:
+        "Title, description, image, price, category and stock are required!",
     });
   }
 
   try {
     const newProduct = new ProductModel({
       title,
+      category,
       description,
       image,
       price,
+      stock,
     });
 
     await newProduct.save();
@@ -56,7 +58,7 @@ export const editProduct = async (req, res) => {
   try {
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       productId,
-      { title, description, price },
+      { title, description, price, category, stock },
       { new: true, runValidators: true },
     );
 
