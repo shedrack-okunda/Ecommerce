@@ -37,7 +37,9 @@ export const createProduct = async (req, res) => {
 export const editProduct = async (req, res) => {
   let productId = req.body.productId;
   let title = req.body.title;
+  let category = req.body.category;
   let description = req.body.description;
+  let stock = req.body.stock;
   let price = req.body.price;
 
   if (!productId) {
@@ -47,7 +49,7 @@ export const editProduct = async (req, res) => {
     });
   }
 
-  if (!title && !description && !price) {
+  if (!title && !description && !price && !category && !stock) {
     return res.status(400).json({
       Status: "Failed",
       message:
