@@ -1,6 +1,6 @@
 :root {
-  --theme-color: #f6f;
-  --hover-color: #f9f;
+  --theme-color: #00896f;
+  --hover-color: #00c0a3;
 }
 
 body {
@@ -91,7 +91,7 @@ main {
 }
 
 .logout-button {
-  background-color: black;
+  background-color: #4b4453;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -105,8 +105,8 @@ main {
 }
 
 .logout-button:hover {
-  transform: translateY(-5%);
-  box-shadow: 2px 0 2px #000;
+  /* transform: translateY(-5%); */
+  box-shadow: 2px 0 2px #5b5453;
 }
 
 @media (max-width: 768px) {

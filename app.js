@@ -19,10 +19,13 @@ const app = express();
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://0.0.0.0:27017/storedb", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://okundashedrack:kJdiCGrehR1w6FpN@cluster0.jpkke.mongodb.net/storedb?retryWrites=true&w=majority&appName=Cluster0",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  )
   .then(() => console.log("Connected to db"));
 
 app.use(express.static(path.join(__dirname, "public")));
