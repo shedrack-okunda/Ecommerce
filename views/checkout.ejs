@@ -89,6 +89,101 @@
           max-width: 100%;
         }
       }
+      .items {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .item {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+        transition: transform 0.2s;
+        padding: 10px;
+      }
+
+      .item img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .item-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 15px;
+        flex-grow: 1;
+      }
+
+      .item-details h3 {
+        margin: 0 0 10px 0;
+        font-size: 18px;
+      }
+
+      .item-details p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .item-price {
+        color: var(--theme-color);
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 768px) {
+        .items {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .item {
+          display: flex;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          overflow: hidden;
+          background: #fff;
+          transition: transform 0.2s;
+          padding: 10px;
+        }
+
+        .item img {
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        .item-details {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 0 15px;
+          flex-grow: 1;
+        }
+
+        .item-details h3 {
+          margin: 0 0 10px 0;
+          font-size: 18px;
+        }
+
+        .item-details p {
+          margin: 5px 0;
+          font-size: 14px;
+        }
+
+        .item-price {
+          color: var(--theme-color);
+          font-weight: bold;
+          margin-top: 10px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -125,6 +220,7 @@
             <p><strong>Time:</strong> <span id="time"></span></p>
             <div class="items-ordered">
               <strong>Items Ordered:</strong>
+              <div class="items"></div>
               <ul id="items-list"></ul>
             </div>
             <p><span id="total-price"></span></p>
@@ -219,6 +315,66 @@
             alert("An error occurred while processing the payment.");
           }
         });
+
+        async function fetchCartItems() {
+        try {
+          const response = await fetch("http://localhost:3000/getCartItems");
+          const data = await response.json();
+
+          if (data.Status === "Success") {
+            displayCartItems(data.data);
+          } else {
+            console.error("Failed to retrieve cart items");
+          }
+        } catch (error) {
+          console.error("Error fetching cart items:", error);
+        }
+      }
+
+      function displayCartItems(items) {
+        const itemsContainer = document.querySelector(".items");
+        const totalItemsElement = document.getElementById("total-items");
+        const totalPriceElement = document.getElementById("total-price");
+        itemsContainer.innerHTML = ""; // Clear any existing content
+
+        let totalItems = 0;
+        let totalPrice = 0;
+
+        items.forEach((item) => {
+          totalItems++;
+          totalPrice += item.price;
+
+          const itemElement = document.createElement("div");
+          itemElement.classList.add("item");
+
+          const itemDetails = document.createElement("div");
+          itemDetails.classList.add("item-details");
+
+          const itemTitle = document.createElement("h3");
+          itemTitle.textContent = item.title;
+
+          const itemDescription = document.createElement("p");
+          itemDescription.textContent = item.description;
+
+          const itemPrice = document.createElement("p");
+          itemPrice.classList.add("item-price");
+          itemPrice.textContent = `kshs. ${item.price}`;
+
+          itemDetails.appendChild(itemTitle);
+          itemDetails.appendChild(itemDescription);
+          itemDetails.appendChild(itemPrice);
+
+          itemElement.appendChild(itemDetails);
+
+          itemsContainer.appendChild(itemElement);
+        });
+
+        totalItemsElement.textContent = `Total Items: ${totalItems}`;
+        totalPriceElement.textContent = `Total Price: kshs. ${totalPrice}`;
+      }
+
+      // Fetch cart items when the page loads
+      fetchCartItems();
 
       // Display the total price when the page loads
       displayTotalPrice();
