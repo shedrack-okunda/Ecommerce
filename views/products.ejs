@@ -268,7 +268,7 @@
 
       async function fetchProducts() {
         try {
-          const response = await fetch("http://localhost:3000/listProducts");
+          const response = await fetch("/listProducts");
           const data = await response.json();
 
           if (data.Status === "Success") {
@@ -353,7 +353,7 @@
         };
 
         // Send the updated product details to the server
-        fetch(`http://localhost:3000/editProduct`, {
+        fetch(`/editProduct`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -378,7 +378,7 @@
       function deleteProduct() {
         const productId = document.getElementById("productId").value;
 
-        fetch(`http://localhost:3000/deleteProduct`, {
+        fetch(`/deleteProduct`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

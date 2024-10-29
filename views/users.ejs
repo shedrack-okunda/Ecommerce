@@ -111,7 +111,7 @@
 
       // Function to fetch users and populate the table
       async function fetchUsers() {
-        const response = await fetch("http://localhost:3000/getUsers");
+        const response = await fetch("/getUsers");
         const data = await response.json();
 
         const userTableBody = document.getElementById("userTableBody");

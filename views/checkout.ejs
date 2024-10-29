@@ -293,7 +293,7 @@
           }
 
           try {
-            const response = await fetch("http://localhost:3000/stkPush", {
+            const response = await fetch("/stkPush", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -318,7 +318,7 @@
 
       async function fetchCartItems() {
         try {
-          const response = await fetch("http://localhost:3000/getCartItems");
+          const response = await fetch("/getCartItems");
           const data = await response.json();
 
           if (data.Status === "Success") {

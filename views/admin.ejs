@@ -134,12 +134,12 @@
 
       async function fetchData() {
         try {
-          const usersResponse = await fetch("http://localhost:3000/getUsers");
+          const usersResponse = await fetch("/getUsers");
           const usersData = await usersResponse.json();
           const totalUsers = usersData.users.length;
 
           const productsResponse = await fetch(
-            "http://localhost:3000/listProducts",
+            "/listProducts",
           );
           const productsData = await productsResponse.json();
           const totalProducts = productsData.products.length;

@@ -205,7 +205,7 @@
 
       async function fetchCartItems() {
         try {
-          const response = await fetch("http://localhost:3000/getCartItems");
+          const response = await fetch("/getCartItems");
           const data = await response.json();
 
           if (data.Status === "Success") {
@@ -220,7 +220,7 @@
 
       async function removeFromCart(productId) {
         try {
-          const response = await fetch("http://localhost:3000/removeFromCart", {
+          const response = await fetch("/removeFromCart", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -242,7 +242,7 @@
 
       async function placeOrder() {
         try {
-          const response = await fetch("http://localhost:3000/makeOrder", {
+          const response = await fetch("/makeOrder", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
