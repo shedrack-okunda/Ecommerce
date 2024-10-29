@@ -15,13 +15,21 @@ const cartSchema = new mongoose.Schema({
   },
   isOrdered: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isBought: {
     type: Boolean,
     default: false,
   },
- 
+  title: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
 });
 
 const Cart = mongoose.model("Cart", cartSchema);

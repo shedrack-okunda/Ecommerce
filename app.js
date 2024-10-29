@@ -10,6 +10,8 @@ import routes from "./routes/routes.js";
 import fileUpload from "express-fileupload";
 import path from "path";
 import { fileURLToPath } from "url";
+import Cart from "./models/Cart.js";
+import QRCode from "qrcode";
 
 // Convert import.meta.url to __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -110,8 +112,35 @@ app.get("/myCart", isAuthenticated, (req, res) => {
   res.render("myCart", { user: req.user });
 });
 
-app.get("/checkout/:totalPrice?", isAuthenticated, (req, res) => {
-  res.render("checkout", { user: req.user });
+app.get("/checkout/:totalPrice?", isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // fetch cart items for the current user
+    const cartItems = await Cart.find({ userId, isOrdered: true });
+
+    // format the cart items into a single string for qr code
+    const receiptItems = cartItems
+      .map((item) => `${item.title}: Kshs. ${item.price}`)
+      .join("\n");
+    const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+
+    // get current date and time
+    const date = new Date();
+    const dateString = date.toLocaleDateString();
+    const timeString = date.toLocaleTimeString();
+
+    const fullReceiptText = `Receipt\nDate: ${dateString}\nTime: ${timeString}\n\n${receiptItems}\n\nTotal: Kshs. ${totalPrice}`;
+
+    // generate the qr code
+    const qrCodeDataURL = await QRCode.toDataURL(fullReceiptText);
+
+    // render the page with qr code data
+    res.render("checkout", { qrCodeDataURL, user: req.user });
+  } catch (error) {
+    console.error("Error generating QR code:", error);
+    res.status(500).send("Failed to generate QR code");
+  }
 });
 
 app.get("/not-authorized", (req, res) => {

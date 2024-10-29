@@ -125,7 +125,19 @@
       #total-price {
         font-weight: bold;
         color: var(--theme-color);
-        margin-left: 40px;
+      }
+
+      .qr-code-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .qr-code-container img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       @media (max-width: 768px) {
@@ -165,7 +177,6 @@
         #total-price {
           font-weight: bold;
           color: var(--theme-color);
-          margin-left: 40px;
         }
       }
     </style>
@@ -198,7 +209,12 @@
     <div class="container">
       <main>
         <div class="checkout-container">
-          <div class="receipt">
+          <div class="qr-code-container">
+            <h3>Scan the QR Code to view receipt details</h3>
+            <img src="<%= qrCodeDataURL %>" alt="Receipt QR Code" />
+          </div>
+
+          <!-- <div class="receipt">
             <h3>Receipt</h3>
             <p><strong>Date:</strong> <span id="date"></span></p>
             <p><strong>Time:</strong> <span id="time"></span></p>
@@ -208,7 +224,7 @@
               <ul id="items-list"></ul>
             </div>
             <p><span id="total-price"></span></p>
-          </div>
+          </div> -->
 
           <div class="pay">
             <div class="pay-summary" id="total-price"></div>
