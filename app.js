@@ -22,7 +22,8 @@ const app = express();
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://okundashedrack:kJdiCGrehR1w6FpN@cluster0.jpkke.mongodb.net/storedb?retryWrites=true&w=majority&appName=Cluster0",
+    // "mongodb+srv://okundashedrack:kJdiCGrehR1w6FpN@cluster0.jpkke.mongodb.net/storedb?retryWrites=true&w=majority&appName=Cluster0",
+    "mongodb://localhost:27017/storedb",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
