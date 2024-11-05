@@ -1,6 +1,33 @@
 import UserModel from "../models/User.js";
 import bcrypt from "bcryptjs";
 
+export const forgotPassword = async (req, res) => {
+  const { username, newPassword, confirmPassword } = req.body;
+
+  // check if the username exists
+  const user = await UserModel.findOne({ username });
+  if (!user) {
+    req.flash("info", "Username not found");
+    return res.redirect("/forgotPass");
+  }
+
+  // Check if the passwords match
+  if (newPassword !== confirmPassword) {
+    req.flash("info", "Passwords do not match.");
+    return res.redirect("/forgotPass");
+  }
+
+  // Update the user's password in the database
+  user.password = newPassword;
+  await user.save();
+
+  req.flash(
+    "info",
+    "Password successfully updated! Please log in with your new password.",
+  );
+  res.redirect("/login");
+};
+
 export const signUp = async (req, res) => {
   const { username, email, password } = req.body;
 

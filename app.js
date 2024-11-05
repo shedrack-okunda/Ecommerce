@@ -148,37 +148,8 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-// route to render forgot password page
 app.get("/forgotPass", (req, res) => {
-  res.render("forgotPass", { message: req.flash("info") });
-});
-
-//route to handle forgot password form submission
-app.post("/forgotPass", async (req, res) => {
-  const { username, newPassword, confirmPassword } = req.body;
-
-  // check if username exists
-  const user = await User.findOne({ username });
-  if (!user) {
-    req.flash("info", "Username not found");
-    return res.redirect("/forgotPass");
-  }
-
-  // check if the password match
-  if (newPassword !== confirmPassword) {
-    req.flash("info", "Passwords do not match.");
-    return res.redirect("/forgotPass");
-  }
-
-  // update the user's password in the db
-  user.password = newPassword;
-  await user.save();
-
-  req.flash(
-    "info",
-    "Password successfully updated! Please log in with your new password",
-  );
-  res.redirect("/login");
+  res.render("forgotPass");
 });
 
 app.listen(3000, () => {

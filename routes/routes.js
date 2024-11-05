@@ -3,6 +3,7 @@ import express from "express";
 import {
   editUser,
   getUsers,
+  forgotPassword,
   login,
   signUp,
 } from "../controllers/userController.js";
@@ -36,5 +37,6 @@ router.post("/removeFromCart", removeFromCart);
 router.post("/makeOrder", makeOrder);
 router.post("/stkPush", createToken, stkPush);
 router.post("/deleteProduct", deleteProduct);
+router.post("/forgotPass", forgotPassword);
 
 export default router;
