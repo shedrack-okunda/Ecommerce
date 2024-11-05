@@ -11,7 +11,6 @@ import fileUpload from "express-fileupload";
 import path from "path";
 import { fileURLToPath } from "url";
 import Cart from "./models/Cart.js";
-import QRCode from "qrcode";
 
 // Convert import.meta.url to __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -22,11 +21,11 @@ const app = express();
 // Connect to MongoDB
 mongoose
   .connect(
-    // "mongodb+srv://okundashedrack:kJdiCGrehR1w6FpN@cluster0.jpkke.mongodb.net/storedb?retryWrites=true&w=majority&appName=Cluster0",
-    "mongodb://localhost:27017/storedb",
+    "mongodb+srv://okundashedrack:kJdiCGrehR1w6FpN@cluster0.jpkke.mongodb.net/storedb?retryWrites=true&w=majority&appName=Cluster0",
+    // "mongodb://localhost:27017/storedb",
     {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
     },
   )
   .then(() => console.log("Connected to db"));
@@ -133,14 +132,11 @@ app.get("/checkout/:totalPrice?", isAuthenticated, async (req, res) => {
 
     const fullReceiptText = `Receipt\nDate: ${dateString}\nTime: ${timeString}\n\n${receiptItems}\n\nTotal: Kshs. ${totalPrice}`;
 
-    // generate the qr code
-    const qrCodeDataURL = await QRCode.toDataURL(fullReceiptText);
-
     // render the page with qr code data
-    res.render("checkout", { qrCodeDataURL, user: req.user });
+    res.render("checkout", { user: req.user });
   } catch (error) {
-    console.error("Error generating QR code:", error);
-    res.status(500).send("Failed to generate QR code");
+    console.error("Error generating receipt:", error);
+    res.status(500).send("Failed to generate receipt");
   }
 });
 
@@ -149,6 +145,39 @@ app.get("/not-authorized", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
+  res.redirect("/login");
+});
+
+// route to render forgot password page
+app.get("/forgotPass", (req, res) => {
+  res.render("forgotPass", { message: req.flash("info") });
+});
+
+//route to handle forgot password form submission
+app.post("/forgotPass", async (req, res) => {
+  const { username, newPassword, confirmPassword } = req.body;
+
+  // check if username exists
+  const user = await User.findOne({ username });
+  if (!user) {
+    req.flash("info", "Username not found");
+    return res.redirect("/forgotPass");
+  }
+
+  // check if the password match
+  if (newPassword !== confirmPassword) {
+    req.flash("info", "Passwords do not match.");
+    return res.redirect("/forgotPass");
+  }
+
+  // update the user's password in the db
+  user.password = newPassword;
+  await user.save();
+
+  req.flash(
+    "info",
+    "Password successfully updated! Please log in with your new password",
+  );
   res.redirect("/login");
 });
 
